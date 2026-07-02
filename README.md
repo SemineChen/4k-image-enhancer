@@ -17,6 +17,7 @@ The main skill definition is in [`SKILL.md`](./SKILL.md).
 ## What It Does
 
 - Upscales images while preserving the original aspect ratio
+- Calculates output size from the original width and height before enhancing
 - Improves clarity, edge sharpness, and text readability
 - Reduces blur, compression artifacts, jagged edges, noise, and mosaic-like blockiness
 - Keeps composition, subjects, expressions, UI layout, text content, color mood, and visual style faithful to the source
@@ -26,11 +27,24 @@ The main skill definition is in [`SKILL.md`](./SKILL.md).
 
 - Redesigning the image
 - Changing composition or layout
+- Swapping portrait and landscape orientation
+- Cropping, padding, stretching, or forcing images into 1:1, 16:9, 4:3, or platform ratios
 - Replacing or rewriting text
 - Adding or removing elements
 - Changing identity features, expressions, poses, or UI structure
 - Turning photos into illustrations or illustrations into photos
 - Over-polishing memes until they lose their original humor
+
+## Size Rules
+
+The skill must read the source width and height first. Output dimensions should always be calculated from the original size using one uniform scale factor.
+
+- `2x`, `3x`, `4x`: multiply both width and height by that factor
+- `4K`: scale the longest side to 3840px by default and calculate the other side proportionally
+- `short side 4K`: only then scale the shortest side to 3840px
+- Explicit width and height: use only if they preserve the original aspect ratio
+
+Example: a `1239x1332` portrait image should become `4956x5328` at `4x`, or about `3572x3840` for longest-side 4K. It should not become landscape or `3840x2160`.
 
 ## Installation
 
