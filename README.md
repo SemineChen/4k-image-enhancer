@@ -19,6 +19,7 @@ The skill definition is in [`SKILL.md`](./SKILL.md).
 - Choose whole-image enhancement for normal photos, avatars, products, posters, covers, and illustrations
 - Use text-protected enhancement for UI, web, and app screenshots
 - Use segmented enhancement plus seamless stitching for long images and text-heavy portfolio/resume/infographic images
+- Apply local ROI enhancement to text cards, icons, illustrations, buttons, and user-marked regions inside each segment
 - Validate size, content fidelity, clarity, and stitching before delivery
 
 ## Long Image Rules
@@ -53,6 +54,18 @@ For text-heavy images, the priority order is:
 9. Only improve edge clarity and contrast
 
 If the source text is already smeared into unreadable blocks, the skill should say that faithful 1:1 text recovery is not guaranteed. It may still enhance visible image quality, but truly clear text may require SVG, HTML, Figma, PDF, or another vector/source reconstruction workflow.
+
+## Local ROI Enhancement
+
+For long or text-heavy images, the skill should not stop after whole-segment upscaling. It must identify local regions of interest and enhance them separately:
+
+- Text cards and paragraphs
+- Dates, numbers, percentages, emails, phones, and links
+- Icons, logos, buttons, labels, and badges
+- Illustrations, product screenshots, UI components, and timeline blocks
+- User-marked regions such as red boxes
+
+Each ROI should be cropped, enhanced locally, and pasted back to the exact original coordinates. At 100% zoom, these ROI areas must be clearer than the source. If a marked ROI is still blurry, the result is not ready.
 
 ## Installation
 
