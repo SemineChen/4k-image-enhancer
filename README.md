@@ -15,18 +15,18 @@ The skill focuses on practical image enhancement workflows:
 This repository contains the Codex skill:
 
 ```text
-image-enhancer
+4k-image-enhancer
 ```
 
 The main skill definition is in [`SKILL.md`](./SKILL.md).
 
 ## Installation
 
-Copy this repository's `image-enhancer` skill into your Codex skills directory:
+Copy this repository's `4k-image-enhancer` skill into your Codex skills directory:
 
 ```bash
-mkdir -p ~/.codex/skills/image-enhancer
-cp SKILL.md ~/.codex/skills/image-enhancer/SKILL.md
+mkdir -p ~/.codex/skills/4k-image-enhancer
+cp SKILL.md ~/.codex/skills/4k-image-enhancer/SKILL.md
 ```
 
 Then restart Codex so it can pick up the new skill.
@@ -36,7 +36,7 @@ Then restart Codex so it can pick up the new skill.
 Use the skill in Codex with prompts like:
 
 ```text
-Use image-enhancer to upscale this image to 4K.
+Use 4k-image-enhancer to upscale this image to 4K.
 ```
 
 ```text
