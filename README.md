@@ -1,111 +1,82 @@
-# Faithful Image Upscaler
+# Universal Faithful Image Enhancer
 
-A Codex skill for faithful image upscaling, clarity enhancement, and 1:1 visual restoration.
+A Codex skill for faithful image upscaling, clarity enhancement, detail recovery, and compression-artifact cleanup.
 
-This skill is designed for images where preservation matters: memes, avatars, posters, covers, UI screenshots, product images, old photos, compressed images, and images with text. Its core rule is simple: keep the original image content, composition, proportions, text, subject, expression, and style unchanged while improving resolution, sharpness, detail, and readability.
+The skill keeps the original content, composition, aspect ratio, text, numbers, contact details, subjects, and visual style unchanged. It is for making the original image clearer and more publish-ready, not for redesigning or replacing it.
 
 ## Skill
-
-This repository contains the Codex skill:
 
 ```text
 faithful-image-upscaler
 ```
 
-The main skill definition is in [`SKILL.md`](./SKILL.md).
+The skill definition is in [`SKILL.md`](./SKILL.md).
 
-## What It Does
+## Core Workflow
 
-- Upscales images while preserving the original aspect ratio
-- Calculates output size from the original width and height before enhancing
-- Improves clarity, edge sharpness, and text readability
-- Reduces blur, compression artifacts, jagged edges, noise, and mosaic-like blockiness
-- Keeps composition, subjects, expressions, UI layout, text content, color mood, and visual style faithful to the source
-- Handles long posters, portfolio pages, UI long screenshots, and infographics by prioritizing readable width/short side rather than only longest-side 4K
-- Detects when the source image is too blurry to faithfully recover small text and asks for a better original instead of inventing content
-- Outputs cleaner high-resolution PNG images suitable for social media, PPT, documentation, and publishing
+- Read source width, height, aspect ratio, and content type before processing
+- Detect long images, large images, UI screenshots, posters, resumes, portfolios, infographics, tables, and text-heavy images
+- Choose whole-image enhancement for normal photos, avatars, products, posters, covers, and illustrations
+- Use text-protected enhancement for UI, web, and app screenshots
+- Use segmented enhancement plus seamless stitching for long images and text-heavy portfolio/resume/infographic images
+- Validate size, content fidelity, clarity, and stitching before delivery
 
-## What It Avoids
+## Long Image Rules
 
-- Redesigning the image
-- Changing composition or layout
-- Swapping portrait and landscape orientation
-- Cropping, padding, stretching, or forcing images into 1:1, 16:9, 4:3, or platform ratios
-- Replacing or rewriting text
-- Inventing unreadable text, contact details, dates, links, names, or portfolio content
-- Adding or removing elements
-- Changing identity features, expressions, poses, or UI structure
-- Turning photos into illustrations or illustrations into photos
-- Over-polishing memes until they lose their original humor
+Long and text-heavy images should not default to longest-side 3840px, because that can leave the readable width too small.
 
-## Size Rules
+- Long images default to at least 2x
+- Text-heavy long images prefer 3x
+- Very dense small text can require 4x
+- Minimum recommended width: 2160px
+- Preferred width: 2400px to 3200px
+- Dense text: 3200px or more
 
-The skill must read the source width and height first. Output dimensions should always be calculated from the original size using one uniform scale factor.
+Examples:
 
-- `2x`, `3x`, `4x`: multiply both width and height by that factor
-- `4K` for normal photos or memes: scale the longest side to 3840px by default and calculate the other side proportionally
-- `4K` for long images, portfolio pages, UI long screenshots, and text-heavy infographics: do not stop at longest-side 3840px, because the readable side may remain too small. Prefer at least `2x`, or set the width/short side high enough for text readability.
-- `short side 4K`: only then scale the shortest side to 3840px
-- Explicit width and height: use only if they preserve the original aspect ratio
+- `818x2048`: prefer `2454x6144` or `3272x8192` for portfolio-style long images
+- `750x5000`: do not output `576x3840`; prefer `2250x15000` or `3000x20000`
+- `1200x6000`: prefer `2400x12000` or `3600x18000`
 
-Example: a `1239x1332` portrait image should become `4956x5328` at `4x`, or about `3572x3840` for longest-side 4K. It should not become landscape or `3840x2160`.
+## Text Protection
 
-For long images, a `750x5000` source should not become `576x3840`, because the width gets smaller and text will not become clearer. Use at least `1500x10000`, or `2250x15000` / `3000x20000` when small text needs to be readable.
+For text-heavy images, the priority order is:
 
-## Source Quality Limits
+1. Do not change text
+2. Do not change numbers
+3. Do not change emails
+4. Do not change links
+5. Do not change headings
+6. Do not change button copy
+7. Do not move text
+8. Preserve font style as much as possible
+9. Only improve edge clarity and contrast
 
-For text-heavy portfolio pages, resumes, UI long screenshots, posters, and infographics, the skill should not pretend that unreadable source text can be faithfully recovered by generation. If small text is already smeared into blocks or broken strokes, ask for a better source such as:
-
-- Original PNG/JPG export
-- PDF
-- Figma, Sketch, PSD, AI, PPT, or another design source
-- Original webpage, HTML, or page link
-- Higher-resolution uncompressed screenshot
-
-If the user chooses to continue with only the low-resolution image, the result should be described as faithful cleanup of visible information only. Rebuilding the text via OCR and layout recreation is a separate reconstruction workflow, not faithful 1:1 upscaling.
+If the source text is already smeared into unreadable blocks, the skill should say that faithful 1:1 text recovery is not guaranteed. It may still enhance visible image quality, but truly clear text may require SVG, HTML, Figma, PDF, or another vector/source reconstruction workflow.
 
 ## Installation
-
-Copy this repository's `faithful-image-upscaler` skill into your Codex skills directory:
 
 ```bash
 mkdir -p ~/.codex/skills/faithful-image-upscaler
 cp SKILL.md ~/.codex/skills/faithful-image-upscaler/SKILL.md
 ```
 
-Then restart Codex so it can pick up the new skill.
+Restart Codex after installation.
 
-## Usage Examples
-
-Use the skill in Codex with prompts like:
+## Example Prompts
 
 ```text
-Use faithful-image-upscaler to upscale this image to 4K while keeping it 1:1 faithful.
+高清这张图
 ```
 
 ```text
-高清放大这张图，保持原图内容和文字不变。
+高清放大这张长图，保持文字和布局不变。
 ```
 
 ```text
-高清放大并 1:1 还原，不要重新设计。
+4K 修复，1:1 保留原图内容。
 ```
 
 ```text
-Sharpen this blurry screenshot and improve text readability without changing the UI layout.
+Enhance this UI screenshot without changing text or layout.
 ```
-
-## Best For
-
-- Memes and reaction images
-- Avatars
-- UI screenshots
-- Posters and social covers
-- Product images
-- Old photos
-- Compressed or low-resolution images
-- Images with important text
-
-## Notes
-
-For tiny or heavily compressed source images, this skill should prefer faithful cleanup and controlled sharpening over generative redesign. It can make an image clearer and larger, but it should not invent new content or alter the visual memory of the original.
