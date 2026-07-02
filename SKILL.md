@@ -1,98 +1,212 @@
 ---
-name: 4k-image-enhancer
-description: Improves the quality of images, especially screenshots, by enhancing resolution, sharpness, and clarity. Perfect for preparing images for presentations, documentation, or social media posts.
+name: faithful-image-upscaler
+description: 对图片进行高清放大、清晰化和 1:1 保真修复。用于表情包、头像、封面、海报、UI 截图、产品图、老照片、模糊图、低清素材和带文字图片；重点保持原图内容、构图、比例、文字、人物、表情和风格不变，只提升分辨率、锐度、细节、文字可读性并减少模糊、噪点、压缩痕迹、锯齿和马赛克感，避免 AI 重新设计、改图、换字或添加新元素。
 ---
 
-# Image Enhancer
+# Faithful Image Upscaler | 高清放大与 1:1 保真修复
 
-This skill takes your images and screenshots and makes them look better—sharper, clearer, and more professional.
+## 目标
 
-## When to Use This Skill
+将用户提供的图片进行高清放大和清晰化处理。
 
-- Improving screenshot quality for blog posts or documentation
-- Enhancing images before sharing on social media
-- Preparing images for presentations or reports
-- Upscaling low-resolution images
-- Sharpening blurry photos
-- Cleaning up compressed images
+核心原则：
 
-## What This Skill Does
+> 保持原图 1:1 还原，只提升画质，不重新设计图片。
 
-1. **Analyzes Image Quality**: Checks resolution, sharpness, and compression artifacts
-2. **Enhances Resolution**: Upscales images intelligently
-3. **Improves Sharpness**: Enhances edges and details
-4. **Reduces Artifacts**: Cleans up compression artifacts and noise
-5. **Optimizes for Use Case**: Adjusts based on intended use (web, print, social media)
+不要把图片重新生成成另一张更好看的图，而是把原图变得更清楚、更干净、更适合发布。
 
-## How to Use
+## 适用场景
 
-### Basic Enhancement
+适合处理：
 
+- 表情包
+- 头像
+- 自媒体封面
+- 海报
+- UI 截图
+- 产品图
+- 老照片
+- 模糊图片
+- 低清素材
+- 压缩严重的图片
+- 带文字的图片
+
+## 必须保留
+
+处理时必须尽量保持以下内容不变：
+
+1. 原图构图不变
+2. 原图比例不变
+3. 主体位置不变
+4. 人物脸型、表情、姿势不变
+5. 动物表情、动作不变
+6. 文字内容不变
+7. 字体风格尽量不变
+8. 图标、贴纸、装饰元素不变
+9. 背景风格不变
+10. 色彩氛围不变
+11. 原图整体风格不变
+
+## 需要增强
+
+只允许做以下增强：
+
+1. 高清放大图片
+2. 提升分辨率
+3. 增强边缘锐度
+4. 提升文字清晰度
+5. 减少模糊
+6. 减少压缩噪点
+7. 减少马赛克感
+8. 清理锯齿边缘
+9. 优化细节质感
+10. 让图片更适合自媒体、PPT、社交平台发布
+
+## 禁止事项
+
+不要做这些事：
+
+- 不要重新设计图片
+- 不要改变构图
+- 不要改变主体姿势
+- 不要改变人物身份特征
+- 不要把真人变成插画
+- 不要把插画变成真人
+- 不要替换文字
+- 不要改错文字
+- 不要删除原图文字
+- 不要添加新文字
+- 不要添加新元素
+- 不要改颜色风格
+- 不要过度磨皮
+- 不要把图片变得塑料感
+- 不要把表情包修得太精致失去原味
+- 不要改变原图的幽默感、情绪和视觉记忆点
+
+## 处理策略
+
+### 1. 普通照片
+
+重点增强：
+
+- 脸部清晰度
+- 头发细节
+- 皮肤自然质感
+- 衣服纹理
+- 光影层次
+- 背景干净度
+
+要求：
+
+- 保持真人感
+- 不要过度美颜
+- 不要磨成 AI 皮肤
+- 不要改变五官
+
+### 2. 表情包
+
+重点增强：
+
+- 表情清晰
+- 文字清晰
+- 边缘干净
+- 保留原本搞笑感
+
+要求：
+
+- 不要修得太高级
+- 不要改变表情
+- 不要改变文字内容
+- 不要重新设计成新表情包
+
+### 3. UI 截图
+
+重点增强：
+
+- 文字可读性
+- 图标边缘
+- 卡片边界
+- 按钮形状
+- 阴影层次
+
+要求：
+
+- 不要改 UI 布局
+- 不要改组件位置
+- 不要改文字内容
+- 不要重新设计界面
+
+### 4. 海报 / 封面
+
+重点增强：
+
+- 标题文字清晰
+- 主视觉细节清晰
+- 背景质感干净
+- 装饰元素边缘锐利
+
+要求：
+
+- 不要改版式
+- 不要替换人物
+- 不要改变标题
+- 不要重新设计封面
+
+## 默认输出要求
+
+默认输出：
+
+- 保持原图比例
+- 输出高清 PNG
+- 尽量放大到原图 2x 至 4x
+- 保留原图视觉内容
+- 输出结果应比原图更清晰、更干净、更适合发布
+
+## 用户常用指令
+
+当用户说：
+
+```text
+高清放大这张图
 ```
-Improve the image quality of screenshot.png
+
+应理解为：
+
+```text
+保持原图内容、构图、比例、文字、主体和风格不变，对图片进行高清放大、细节锐化、噪点清理、压缩痕迹修复和文字清晰度增强，输出更清楚的高清版本。
 ```
 
-```
-Enhance all images in this folder
-```
+当用户说：
 
-### Specific Improvements
-
-```
-Upscale this image to 4K resolution
+```text
+高清放大并 1:1 还原
 ```
 
-```
-Sharpen this blurry screenshot
-```
+应理解为：
 
-```
-Reduce compression artifacts in this image
+```text
+严格保留原图所有内容，不重新设计、不改构图、不改文字、不改主体，只做画质修复和清晰度增强。
 ```
 
-### Batch Processing
+## 推荐提示词模板
 
+```text
+请对这张图片进行高清放大和 1:1 保真修复。
+
+要求：
+
+- 保持原图内容不变
+- 保持原图构图不变
+- 保持原图比例不变
+- 保持主体位置不变
+- 保持文字内容不变
+- 保持原图风格和情绪不变
+- 只提升清晰度、锐度、细节、文字可读性
+- 减少模糊、压缩噪点、锯齿和马赛克感
+- 不要重新设计
+- 不要添加新元素
+- 不要删除原有元素
+- 不要改变人物、动物、表情、姿势或 UI 布局
+
+最终输出一张更清晰、更干净、更高清的图片。
 ```
-Improve the quality of all PNG files in this directory
-```
-
-## Example
-
-**User**: "Improve the image quality of screenshot-2024.png"
-
-**Output**:
-```
-Analyzing screenshot-2024.png...
-
-Current specs:
-- Resolution: 1920x1080
-- Format: PNG
-- Quality: Good, but slight blur
-
-Enhancements applied:
-✓ Upscaled to 2560x1440 (retina)
-✓ Sharpened edges
-✓ Enhanced text clarity
-✓ Optimized file size
-
-Saved as: screenshot-2024-enhanced.png
-Original preserved as: screenshot-2024-original.png
-```
-
-**Inspired by:** Lenny Rachitsky's workflow from his newsletter - used for screenshots in his articles
-
-## Tips
-
-- Always keeps original files as backup
-- Works best with screenshots and digital images
-- Can batch process entire folders
-- Specify output format if needed (PNG for quality, JPG for smaller size)
-- For social media, mention the platform for optimal sizing
-
-## Common Use Cases
-
-- **Blog Posts**: Enhance screenshots before publishing
-- **Documentation**: Make UI screenshots crystal clear
-- **Social Media**: Optimize images for Twitter, LinkedIn, Instagram
-- **Presentations**: Upscale images for large screens
-- **Print Materials**: Increase resolution for physical media
