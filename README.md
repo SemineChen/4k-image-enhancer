@@ -21,6 +21,7 @@ The main skill definition is in [`SKILL.md`](./SKILL.md).
 - Improves clarity, edge sharpness, and text readability
 - Reduces blur, compression artifacts, jagged edges, noise, and mosaic-like blockiness
 - Keeps composition, subjects, expressions, UI layout, text content, color mood, and visual style faithful to the source
+- Handles long posters, portfolio pages, UI long screenshots, and infographics by prioritizing readable width/short side rather than only longest-side 4K
 - Outputs cleaner high-resolution PNG images suitable for social media, PPT, documentation, and publishing
 
 ## What It Avoids
@@ -40,11 +41,14 @@ The main skill definition is in [`SKILL.md`](./SKILL.md).
 The skill must read the source width and height first. Output dimensions should always be calculated from the original size using one uniform scale factor.
 
 - `2x`, `3x`, `4x`: multiply both width and height by that factor
-- `4K`: scale the longest side to 3840px by default and calculate the other side proportionally
+- `4K` for normal photos or memes: scale the longest side to 3840px by default and calculate the other side proportionally
+- `4K` for long images, portfolio pages, UI long screenshots, and text-heavy infographics: do not stop at longest-side 3840px, because the readable side may remain too small. Prefer at least `2x`, or set the width/short side high enough for text readability.
 - `short side 4K`: only then scale the shortest side to 3840px
 - Explicit width and height: use only if they preserve the original aspect ratio
 
 Example: a `1239x1332` portrait image should become `4956x5328` at `4x`, or about `3572x3840` for longest-side 4K. It should not become landscape or `3840x2160`.
+
+For long images, a `750x5000` source should not become `576x3840`, because the width gets smaller and text will not become clearer. Use at least `1500x10000`, or `2250x15000` / `3000x20000` when small text needs to be readable.
 
 ## Installation
 
