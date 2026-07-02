@@ -22,6 +22,7 @@ The main skill definition is in [`SKILL.md`](./SKILL.md).
 - Reduces blur, compression artifacts, jagged edges, noise, and mosaic-like blockiness
 - Keeps composition, subjects, expressions, UI layout, text content, color mood, and visual style faithful to the source
 - Handles long posters, portfolio pages, UI long screenshots, and infographics by prioritizing readable width/short side rather than only longest-side 4K
+- Detects when the source image is too blurry to faithfully recover small text and asks for a better original instead of inventing content
 - Outputs cleaner high-resolution PNG images suitable for social media, PPT, documentation, and publishing
 
 ## What It Avoids
@@ -31,6 +32,7 @@ The main skill definition is in [`SKILL.md`](./SKILL.md).
 - Swapping portrait and landscape orientation
 - Cropping, padding, stretching, or forcing images into 1:1, 16:9, 4:3, or platform ratios
 - Replacing or rewriting text
+- Inventing unreadable text, contact details, dates, links, names, or portfolio content
 - Adding or removing elements
 - Changing identity features, expressions, poses, or UI structure
 - Turning photos into illustrations or illustrations into photos
@@ -49,6 +51,18 @@ The skill must read the source width and height first. Output dimensions should 
 Example: a `1239x1332` portrait image should become `4956x5328` at `4x`, or about `3572x3840` for longest-side 4K. It should not become landscape or `3840x2160`.
 
 For long images, a `750x5000` source should not become `576x3840`, because the width gets smaller and text will not become clearer. Use at least `1500x10000`, or `2250x15000` / `3000x20000` when small text needs to be readable.
+
+## Source Quality Limits
+
+For text-heavy portfolio pages, resumes, UI long screenshots, posters, and infographics, the skill should not pretend that unreadable source text can be faithfully recovered by generation. If small text is already smeared into blocks or broken strokes, ask for a better source such as:
+
+- Original PNG/JPG export
+- PDF
+- Figma, Sketch, PSD, AI, PPT, or another design source
+- Original webpage, HTML, or page link
+- Higher-resolution uncompressed screenshot
+
+If the user chooses to continue with only the low-resolution image, the result should be described as faithful cleanup of visible information only. Rebuilding the text via OCR and layout recreation is a separate reconstruction workflow, not faithful 1:1 upscaling.
 
 ## Installation
 
